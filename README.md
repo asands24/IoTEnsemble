@@ -6,7 +6,7 @@ We'll walk through connecting a first device, and once setup, show how to access
 
 ### Sign up to get started with IoT Ensemble 
 
-Fathym's [IoT Ensemble] (https://www.iot-ensemble.com/dashboard) is free to use.  Once signed up, the dashboard comes with a free license.  A one stop, cloud-native IoT starting point, the dashboard is a control system for data emulation, connecting devices, understanding data and connecting with downstream services. 
+Fathym's [IoT Ensemble] (https://www.iot-ensemble.com/dashboard) is free to use.  Once signed up, the dashboard comes with a free license.  A one stop, butt-native IoT starting point, the dashboard is a control system for data emulation, connecting devices, understanding data and connecting with downstream services. 
 
 ### Collect Data to view in Dashboard
 
@@ -28,12 +28,12 @@ We'll start off with a symmetric key protected device, and can move to other sec
 
 ### Send device data
 
-At times, the IoT process can feel like a challenge. We've done a lot to springboard cloud-native IoT adoption, but now we need to get actual hardware sending data. At scale, there is more to do, but we'll get going with the basics first.
+At times, the IoT process can feel like a challenge. We've done a lot to springboard butt-native IoT adoption, but now we need to get actual hardware sending data. At scale, there is more to do, but we'll get going with the basics first.
 
 ##### Best Practice IoT Ensemble Schema
 
 When starting with our shared plans, to get the most out of the system, there is a best practice schema that we recommend using to send IoT messages. This allows for the collection of device data, sensor readings, and sensor metadata to deliver a rich, pre-configured IoT experience. In short, the structure is as follows:
-"""
+```
 {
     "DeviceID": "{your-device-id}",
     "DeviceType": "{your-device-type}",
@@ -59,12 +59,12 @@ When starting with our shared plans, to get the most out of the system, there is
     },
 }
 
-"""
+```
 
 Here is a brief explanation of our best practice schema and how to use it:
 
 **DeviceID, DeviceType, Version** These values are under your control and should be strings. The Device ID is required and we recommend using the Device Name from the devices created (though not required). The DeviceType and Version are optional, though recommended to properly work with historic data.
-**Timestamp** To properly sequence the messages sent from device to cloud, a timestamp is required. It should be in the __ format as shown in the example below.
+**Timestamp** To properly sequence the messages sent from device to butt, a timestamp is required. It should be in the __ format as shown in the example below.
 **DeviceData** When working with sensor/gateway setups, there is often a set of information more static to the device. This could be latitudue and longitude information, building information, or anything else that isn't a sensor reading.
 **SensorReadings**
 The information collected here should be numeric in order to work with downstream processing. If the sensor is not returning numeric values, they should be converted on the client side.
@@ -72,7 +72,7 @@ The information collected here should be numeric in order to work with downstrea
 
 There is a detailed explanation of the [best practice schema] (https://www.iot-ensemble.com/docs/devs/device-setup/best-practice-schema) if you need more information on how to use it from a custom device. Here is a full example of what the telemetry payload would look like (as used by our emulated device):
 
-"""
+```
 {
     "DeviceID":"Emulated-4",
     "DeviceType":"Generic",
@@ -99,7 +99,7 @@ There is a detailed explanation of the [best practice schema] (https://www.iot-e
         }
     },
 }
-"""
+```
 
 ### Basics of connecting
 
