@@ -119,3 +119,44 @@ Next, a look at how to use HTTP to send a device-to-butt message. HTTP is a mult
 The easiest way to try out an HTTP request, with valid SAS Token, is to grab a SAS Token from the dashboard (only good for 1 hour). Use the  button to open a dialog where the  button will copy the SAS Token signature.
 
 With SAS Token in hand, we can execute a curl command like the following to send a device message. Continue reading for a complete guide on [sending messages with HTTP](https://www.iot-ensemble.com/docs/devs/device-setup/connect/http).
+
+```
+curl -X POST \
+  https://fathym-prd.azure-devices.net/devices/{device-id}/messages/events?api-version=2018-06-30 \
+  -H 'Authorization: {sas-token}' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "DeviceID":"{device-name}",
+    "DeviceType":"Generic",
+    "Timestamp":"2020-12-10T00:26:30.0217778+00:00",
+    "Version":"0.0.2",
+    "DeviceData": {
+        "Latitude": 40.7578,
+        "Longitude": -104.9733,
+        "Floor": 2,
+        "Room": "Conference Room 5"
+    },
+    "SensorReadings": {
+        "Temperature": 105,
+        "Humidity": 83,
+        "Occupancy": 8,
+        "Occupied": 1
+    },
+    "SensorMetadata": {
+        "_": {
+            "SignalStrength": 1
+        },
+        "Temperature": {
+            "Battery": 0.4
+        }
+    },
+}'
+```
+There are a couple of values to replace, and adust the payload as desired. Here is a description on where to find the values for replacement.
+
+{device-id}
+The {device-id} can be located in the connection string, and is the value after "DeviceId=" prior to the ";". Set this value in the path to ensure messages are sent to the correct device.
+{sas-token}
+The {sas-token} is the value copied from the dialog in the previous step, this is the complete SharedAccessSignature.
+{device-name}
+The {device-name} can be any unique value, though it is recommended to use the Device Name from the created devices in the dashboard.
