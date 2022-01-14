@@ -26,6 +26,79 @@ In the previous guide, we worked through our emulated data and saw the dashboard
 
 Prior to setting up the IoT Ensemble provided by Fathym, it's important to make sure you have the components ready to use for your raspberry pi to collect data. 
 
+### [Connecting a Raspberry Pi](https://www.iot-ensemble.com/blog/blogs/2021/january/raspberry-pi-iot-ensemble-power-bi)
+
+For many, the Internet of Things (IoT) can seem like a difficult challenge, especially thinking through getting an end-to-end IoT Solution out the door (or stood up for the first time). In this post, we'll take you step-by-step through the process of setting up your own personal temperature sensor with IoT Ensemble. Here's a look at what we'll do:
+
+Configure and set up a Raspberry Pi
+Connect a temperature sensor
+Read the data with Node-Red
+Use IoT Ensemble to stream sensor data
+Leverage helpful data tools from your dashboard
+Visualize your data with PowerBI
+
+You can find a list of what you need [here](https://www.iot-ensemble.com/blog/#things-you-will-need). 
+
+### Setting up Raspberry Pi
+
+This process includes putting the Raspberry Pi Operating System (formerly known as Raspbian) onto your micro SD card and interacting with the Pi to complete initial setup (Connect to Wifi, allow permissions to access your Pi from another computer, etc).
+
+The official [Raspberry Pi website](https://www.raspberrypi.org/) has an excellent tool called the Raspberry Pi Imager, which walks you through the process of creating an SD card that will power and control your Raspberry PI.
+
+Now that you have your SD card ready to go, we can fire up the Pi! You will need to plug your keyboard and mouse into 2 of the 4 USB inputs on the Pi, and plug in a monitor with an HDMI cable.
+
+Once all peripherals are connected, plug in the power source and connect it to the Pi. This should open the Raspberry Pi OS first time setup wizard on the monitor. Navigate through the provided steps, which will include connecting the Pi to WiFi.
+
+### Installing software on the Raspberry Pi
+
+In order to program our Pi and get connected, we will need to install a couple of tools first, mainly Node.js and Node-Red by completing the following terminal commands:
+
+1. To update the system package list run
+    `sudo apt-get update`
+2. Install the latest versions of system packages with
+    `sudo apt-get dist-upgrade`
+3. Get the Node.js package we need to install by running
+    `curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash`
+4. To install the Node.js package
+    `sudo apt-get install -y nodejs`
+5. Finally download and install Node Red with command
+    `bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)`
+    
+Once all commands have been run in the terminal, the RPi is setup with Node Red.
+
+### Wire up the Raspberry Pi
+Next, we need to wire up the DHT11 sensor to the Raspberry Pi. Thankfully, this simple sensor doesn’t need any complex wiring, resistors, or breadboards. Simply follow the wiring diagram provided below:
+
+![modifiedPiWiring](https://user-images.githubusercontent.com/32316958/149564013-760d2788-3621-43a2-9c6d-d8d6a973f736.png)
+
+
+### Using Node-Red to Read Sensor Data
+
+Once you’re done wiring your sensor, go back to your terminal window on the Raspberry Pi. Then enter the command node-red-start which will start the node red service. When the service starts, the terminal will look similar to this:
+
+![modifiedPiWiring](https://user-images.githubusercontent.com/32316958/149564336-afbe48bc-c3e7-4c37-9c78-ec837a863b76.png)
+
+In the top right, there will be a URL that usually starts with 'http://192…' (inside the red box above). You can then use the built in Raspberry Pi web browser to navigate to this website. You will then be taken to a screen that looks like this:
+
+![8DAuGnTQCLpunQuGfHnXTmxWbRQScCVGspXNWFwLmGqqGBAE2Pqb9LeTnXw1EKPsx8jWLNvbTmLZqkxffo1PfhGGpxVfuvgPQ2LNPAoAijkDuFRcb33aRxga63jyzJvDjb2fsjthTxzpebaC1NTHTsVLAUgTjG5aqfbZnDbDZ66](https://user-images.githubusercontent.com/32316958/149564432-99bf3b41-42cc-4a67-8683-de3c41bea2e5.png)
+
+Welcome to Node-Red! There are a few additional modules that we will need in order to create our device flow. In the top right corner of the screen, click on the hamburger menu, and then click Manage palette. On the new screen, click on the Install tab. In the search bar, type in the following and install each of them:
+
+- node-red-contrib-azure-iot-hub
+- node-red-contrib-dht-sensor
+
+For the sake of simplicity, we are able to import previously created flows into Node Red. The following flow template takes temperature and humidity information from the DHT11, formats the JSON payload to use [IoT Ensemble's Best Practice Schema](http://www.iot-ensemble.com/docs/developers/device-setup/iot-best-practice-schema-explained) (in addition, uses a few extra fields like **key** and **protocol** to work with the Azure IoT Hub module), and takes a reading every 30 seconds. To use this template, copy the following Node-Red JSON template:
+
+`[{"id":"e97f8ba8.2829d8","type":"tab","label":"DHT11 Sensor with Raspberry Pi to Fathym IoT Ensemble","disabled":false,"info":"This simple flow is designed to get basic temperature and humidity readings into Fathym's IoT Ensemble dashboard"},{"id":"2fe1190e.141286","type":"inject","z":"e97f8ba8.2829d8","name":"Take reading every 30 seconds","props":[{"p":"payload"}],"repeat":"30","crontab":"","once":true,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":190,"y":440,"wires":[["2f3407d4.26b858"]]},{"id":"2f3407d4.26b858","type":"rpi-dht22","z":"e97f8ba8.2829d8","name":"DHT11 Sensor","topic":"","dht":"11","pintype":"0","pin":4,"x":500,"y":440,"wires":[["1fa2f6c2.9637b9"]]},{"id":"1fa2f6c2.9637b9","type":"change","z":"e97f8ba8.2829d8","name":"Format JSON","rules":[{"t":"set","p":"payload","pt":"msg","to":"{\t\t\"deviceId\": \"Your DeviceID\",\t\t\"key\": \"Your Device Key\",\t\t\"protocol\": \"mqtt\",\t\t\"data\": {\t\t\"DeviceID\": \"Your DeviceID\",\t\t\"DeviceData\": {\t\t\t\"Latitude\": \"40.5853° N\",\t\t\t\"Longitude\": \"105.0844° W\"\t\t},\t\t\"SensorReadings\": {\t\t\t\"Temperature\": $number(payload),\t\t\t\"Humidity\": $number(humidity)\t\t},\t\t\"SensorMetadata\": {\t\t\t\"_\": {\t\t\t\t\"SignalStrength\": \"Good\",\t\t\t\t\"SensorType\": \"DHT11\"\t\t\t}\t\t}\t\t}\t}","tot":"jsonata"}],"action":"","property":"","from":"","to":"","reg":false,"x":760,"y":440,"wires":[["8601cbe1.84e998","fc1e92ea.2210b"]]},{"id":"8601cbe1.84e998","type":"debug","z":"e97f8ba8.2829d8","name":"Local Debug","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":970,"y":380,"wires":[]},{"id":"fc1e92ea.2210b","type":"azureiothub","z":"e97f8ba8.2829d8","name":"Azure IoT Hub","protocol":"mqtt","x":980,"y":500,"wires":[[]]}]`
+
+In the Node-Red browser screen, click on the hamburger menu at the top right of the screen, and choose Import. Paste the JSON into the text box, and click Import. You will now have a visual representation of the flow of data from the device.
+
+### Configuring IoT Ensemble
+
+Before we can tell your device where to send data, we first need somewhere to send the data. There are a number of different ways this can be accomplished, with IoT Ensemble the focus is helping you leverage best practice cloud IoT technology. Here we'll be using the Azure IoT Hub to connect devices to a shared data flow, and then make it avaiable downstream for use in other applications.
+
+Start by navigating to the [IoT Ensemble Dashboard](https://www.iot-ensemble.com/dashboard) and sign in or sign up. For the purposes of moving forward, you will only need the Free license and no credit card will be required.
+
 ### Enroll a Device
 
 To get started with a device, simply enter a device name and enroll it.
