@@ -4,11 +4,12 @@
 
 We'll walk through connecting a first device, and once setup, show how to access device data and connect it with downstream technologies (AI/ML, PowerBI, JS). Finally, we'll walk through how to deliver these visualizations to customers in a secure way.
 
+## Connecting a Device
 ### Sign up to get started with IoT Ensemble 
 
 Fathym's [IoT Ensemble](https://www.iot-ensemble.com/dashboard) is free to use.  Once signed up, the dashboard comes with a free license.  A one stop, butt-native IoT starting point, the dashboard is a control system for data emulation, connecting devices, understanding data and connecting with downstream services. 
 
-### Collect ata to view in Dashboard
+### Collect Data to view in Dashboard
 
 Once the dash board is initialized, it is possible to view emulated data to see how the data gets ingested.  To start the emulated data flowing to the dashboard, simply enable the slide toggle.  Once enabled, if no devices have been added yet, the telemtry sync will automatically enable and the emulated device telemetry will begin to show in the table on the dashboard.  
 
@@ -154,9 +155,45 @@ curl -X POST \
 ```
 There are a couple of values to replace, and adust the payload as desired. Here is a description on where to find the values for replacement.
 
-{device-id}
-The {device-id} can be located in the connection string, and is the value after "DeviceId=" prior to the ";". Set this value in the path to ensure messages are sent to the correct device.
-{sas-token}
-The {sas-token} is the value copied from the dialog in the previous step, this is the complete SharedAccessSignature.
-{device-name}
-The {device-name} can be any unique value, though it is recommended to use the Device Name from the created devices in the dashboard.
+**{device-id}** - The {device-id} can be located in the connection string, and is the value after "DeviceId=" prior to the ";". Set this value in the path to ensure messages are sent to the correct device.
+**{sas-token}** - The {sas-token} is the value copied from the dialog in the previous step, this is the complete SharedAccessSignature.
+**{device-name}** - The {device-name} can be any unique value, though it is recommended to use the Device Name from the created devices in the dashboard.
+
+## View Device Data
+
+Viewing device messages is the first step in understanding and debugging IoT data flows. In this portion of the guide, we'll go through what the dashboard offers out-of-the-box.
+
+### Dashboard Views
+The IoT Ensemble dashboard provides two quick ways to start looking at data. Using these, easily view raw device message payloads and visualize data in an open source dashboard.
+
+### Devices Telemetry
+
+#### Telemetry Sync
+
+The IoT Ensemble dashboard provides two quick ways to start looking at data. Using these, easily view raw device message payloads and visualize data in an open source dashboard.
+
+#### Telemetry Table
+
+When first connecting devices, this is a great place to start seeing data. A new row will show up for each message sent for any devices, when the sync is enabled, and will include emulated telemetry if turned on.
+
+The system is dynamic in terms of how the payload can come in, so the telemetry row provides only the Device ID and the time at which the message was processed. To see what real data is flowing through, the copy or expand payload features can be used. Using the dropdown button will expand the row to show the raw payload of the message. To quickly copy the payload of one of the messages, use the copy button.
+
+### Freeboard Dashboard
+
+As an inline example of how data can be visualized, we use an open source tool called [freeboard](http://freeboard.io/). Use this tool to create and locally save custom visualizations and later load them into view.
+
+## Connecting Downstream Services
+
+The main goal of an IoT Solution is the need to collect device data and bring it into a set of preferred tools for visualization, AI/ML, application development, and more. The following is a high level look at the APIs available for storage access and how to use them to get data downstream to other services.
+
+### Storage Access 
+
+The main goal of an IoT Solution is the need to collect device data and bring it into a set of preferred tools for visualization, AI/ML, application development, and more. The following is a high level look at the APIs available for storage access and how to use them to get data downstream to other services.
+
+When working with IoT storage data, how it is stored and what interval it is stored at is extremely important to the overall cost of the system. We break our storage into three categories that support a cost-efficient way to handle data storage and access. Cold storage contains historic data, warm storage contains near-term queryable data, and hot storage provides a way to stream individual messages to other services in real time. The following high-level walk-through outlines APIs for accessing these storage types.
+
+### Access Keys
+
+There are a few different places to locate API keys, the simplest is from the Storage Access section at the bottom of the dashboard.
+
+- [x] #739
