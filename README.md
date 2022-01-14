@@ -196,4 +196,23 @@ When working with IoT storage data, how it is stored and what interval it is sto
 
 There are a few different places to locate API keys, the simplest is from the Storage Access section at the bottom of the dashboard.
 
-- [x] #739
+### Cold Storage 
+
+For many use cases, cold storage historic data can be formatted in an efficient way to support service integrations. The APIs provided to access this data are geared at helping grab a time period of data and format it in a number of ways (JSON, CSV, JSON Lines, etc). Use the dashboard to interactively call the ColdQuery endpoint, and explore the available parameters. Following is a simple example that could be used to retrieve device telemetry data for Microsoft Power BI:
+
+`curl -X GET "https://fathym-prd.azure-api.net/iot-ensemble/ColdQuery?dataType=Telemetry&resultType=JSON&flatten=false" -H  "lcu-subscription-key: {subscription-key}"`
+
+There are values to replace and adjust the parameters as desired. Here is a description on where to find the values for replacement.
+
+**{subscription-key}**
+The {subscription-key} can be located in the API Keys section as described above.
+
+### Warm Storage 
+
+A queryable storage location, warm storage offers a way to work with data in a dynamic, no-sql way. Use the dashboard to interactively call the WarmQuery endpoint, and explore the available parameters. Following is a simple example that could be used to retrieve device telemetry data for use in an application:
+
+`curl -X GET "https://fathym-prd.azure-api.net/iot-ensemble/WarmQuery?includeEmulated=false" -H  "lcu-subscription-key: {subscription-key}"`
+
+**{subscription-key}** - The {subscription-key} can be located in the API Keys section as described above.
+
+
