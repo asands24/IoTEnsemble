@@ -13,7 +13,12 @@ Fathym's [IoT Ensemble](https://www.iot-ensemble.com/dashboard) is free to use. 
 
 Once the dash board is initialized, it is possible to view emulated data to see how the data gets ingested.  To start the emulated data flowing to the dashboard, simply enable the slide toggle.  Once enabled, if no devices have been added yet, the telemtry sync will automatically enable and the emulated device telemetry will begin to show in the table on the dashboard.  
 
-Once you are done with the emulated data, simply slide the toggle to the left to deactivate.  
+
+![dashboard-emulated-enabled](https://user-images.githubusercontent.com/32316958/149453890-424b4a66-ab78-491d-867f-1539138f1a37.png)
+
+
+![dashboard-emulated-telemetry](https://user-images.githubusercontent.com/32316958/149453899-6d058251-dda4-4abf-ad86-e32adcb0f2e8.png)
+
 
 ### Connecting First Device
 
@@ -25,7 +30,11 @@ Prior to setting up the IoT Ensemble provided by Fathym, it's important to make 
 
 To get started with a device, simply enter a device name and enroll it.
 
+![dashboard-enroll-device](https://user-images.githubusercontent.com/32316958/149454069-c8ee7f85-b1e2-4d69-881c-67bf36ff3682.png) ![dashboard-enroll-device-name](https://user-images.githubusercontent.com/32316958/149454084-52f8d0bb-872f-42b0-ab75-b6abb580fa3e.png)
+
 We'll start off with a symmetric key protected device, and can move to other security in the future. Once created, the connection string will be available for use in the next steps.  
+
+![dashboard-device-list-first-device](https://user-images.githubusercontent.com/32316958/149454172-f8312dfa-2bda-4563-918e-e97316c1ac2f.png)
 
 ### Send Device Data
 
@@ -111,6 +120,8 @@ All that's needed for the following sections is the device connection string. Co
 
 Using the send device message form from the dashboard is the easiest way to start seeing what data for devices would look like throughout the system. Once you adjust your values, click send message. 
 
+![dashboard-send-device-message-dialog](https://user-images.githubusercontent.com/32316958/149454564-8b3fec6f-0da0-41d7-9d2d-a0a185fa4335.png)
+
 Once opened, select the device to send from and adjust any of the values. Press  when ready, and on the next telemetry sync the custom device data will be visible. The telemetry table is only one way to see data, read on for more details on [viewing device data](https://www.iot-ensemble.com/docs/getting-started/viewing-device-data).
 
 ### Send via HTTP
@@ -118,6 +129,8 @@ Once opened, select the device to send from and adjust any of the values. Press 
 Next, a look at how to use HTTP to send a device-to-butt message. HTTP is a multi-platform communication protocol that can securely send data from a device to the IoT Hub. Here we'll layout how to use the connection string to generate an HTTP request to send data to the Azure IoT Hub. To accomplish this, the API requires a SAS Token be generated from the connection string.
 
 The easiest way to try out an HTTP request, with valid SAS Token, is to grab a SAS Token from the dashboard (only good for 1 hour). Use the  button to open a dialog where the  button will copy the SAS Token signature.
+
+![dashboard-devices-sas-tokens-dialog](https://user-images.githubusercontent.com/32316958/149454609-1875dcaf-72a1-4284-9a45-50ec3a496fa0.png)
 
 With SAS Token in hand, we can execute a curl command like the following to send a device message. Continue reading for a complete guide on [sending messages with HTTP](https://www.iot-ensemble.com/docs/devs/device-setup/connect/http).
 
@@ -172,15 +185,26 @@ The IoT Ensemble dashboard provides two quick ways to start looking at data. Usi
 
 The IoT Ensemble dashboard provides two quick ways to start looking at data. Using these, easily view raw device message payloads and visualize data in an open source dashboard.
 
+Each of the dashboard views is powered by the telemetry sync. The sync is responsible for preloading a set of telemetry based on the settings in this section. It will only run for 30 minutes at a time and must be restarted after that (the last loaded data will stay in sync once disabled). At the top of the Devices Telemetry section are the settings for the majority of the telemetry sync.
+
+![dashboard-devices-telemetry-header](https://user-images.githubusercontent.com/32316958/149454948-939e3976-7aa4-4e11-b0c8-555d52f94730.png)
+
+
 #### Telemetry Table
 
 When first connecting devices, this is a great place to start seeing data. A new row will show up for each message sent for any devices, when the sync is enabled, and will include emulated telemetry if turned on.
 
+![dashboard-devices-telemetry-table](https://user-images.githubusercontent.com/32316958/149454994-93e9ab15-96c4-40c4-838d-4637936f43af.png)
+
 The system is dynamic in terms of how the payload can come in, so the telemetry row provides only the Device ID and the time at which the message was processed. To see what real data is flowing through, the copy or expand payload features can be used. Using the dropdown button will expand the row to show the raw payload of the message. To quickly copy the payload of one of the messages, use the copy button.
+
+![dashboard-devices-telemetry-table-payload](https://user-images.githubusercontent.com/32316958/149455075-9edcac02-1911-454f-bd0f-09565938253b.png)
 
 ### Freeboard Dashboard
 
 As an inline example of how data can be visualized, we use an open source tool called [freeboard](http://freeboard.io/). Use this tool to create and locally save custom visualizations and later load them into view.
+
+![dashboard-devices-freeboard](https://user-images.githubusercontent.com/32316958/149455103-d0276368-322a-4d34-8c89-a11d0f60bbd3.png)
 
 ## Connecting Downstream Services
 
@@ -188,13 +212,16 @@ The main goal of an IoT Solution is the need to collect device data and bring it
 
 ### Storage Access 
 
-The main goal of an IoT Solution is the need to collect device data and bring it into a set of preferred tools for visualization, AI/ML, application development, and more. The following is a high level look at the APIs available for storage access and how to use them to get data downstream to other services.
-
 When working with IoT storage data, how it is stored and what interval it is stored at is extremely important to the overall cost of the system. We break our storage into three categories that support a cost-efficient way to handle data storage and access. Cold storage contains historic data, warm storage contains near-term queryable data, and hot storage provides a way to stream individual messages to other services in real time. The following high-level walk-through outlines APIs for accessing these storage types.
+
+![dashboard-storage-access](https://user-images.githubusercontent.com/32316958/149455137-81496c67-1bbe-4f59-8f56-5a2c872c7a1c.png)
+
 
 ### Access Keys
 
 There are a few different places to locate API keys, the simplest is from the Storage Access section at the bottom of the dashboard.
+
+![dashboard-storage-access](https://user-images.githubusercontent.com/32316958/149455301-aea9d5c8-3736-4e38-97cd-01bd9d279df6.png)
 
 ### Cold Storage 
 
@@ -215,4 +242,8 @@ A queryable storage location, warm storage offers a way to work with data in a d
 
 **{subscription-key}** - The {subscription-key} can be located in the API Keys section as described above.
 
+### Downstream Services
 
+There are a lot of options in Power BI Desktop for importing data to be used in reports and visualizations for data interpretation. IoT Ensemble provides connection URLs and Storage Access Keys so you can import data from your devices into Power BI using the Web data source.
+
+Your IoT Ensemble Dashboard will give you access to API Access Storage Keys as well as the interactive forms described above to obtain request URLs for cold and warm storage queries. 
