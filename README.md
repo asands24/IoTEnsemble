@@ -11,7 +11,7 @@ Fathym's [IoT Ensemble](https://www.iot-ensemble.com/dashboard) is free to use. 
 
 ### Collect Data to view in Dashboard
 
-Once the dash board is initialized, it is possible to view emulated data to see how the data gets ingested.  To start the emulated data flowing to the dashboard, simply enable the slide toggle.  Once enabled, if no devices have been added yet, the telemtry sync will automatically enable and the emulated device telemetry will begin to show in the table on the dashboard.  
+Once the dash board is initialized, it is possible to view emulated data to see how the data gets ingested.  To start the emulated data flowing to the dashboard, simply enable the slide toggle.  Once enabled, if no devices have been added yet, the telemetry sync will automatically enable and the emulated device telemetry will begin to show in the table on the dashboard.  
 
 
 ![dashboard-emulated-enabled](https://user-images.githubusercontent.com/32316958/149453890-424b4a66-ab78-491d-867f-1539138f1a37.png)
