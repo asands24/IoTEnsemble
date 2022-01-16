@@ -54,6 +54,7 @@ Once all peripherals are connected, plug in the power source and connect it to t
 In order to program our Pi and get connected, we will need to install a couple of tools first, mainly Node.js and Node-Red by completing the following terminal commands:
 
 1. To update the system package list run
+
     `sudo apt-get update`
 2. Install the latest versions of system packages with
     `sudo apt-get dist-upgrade`
