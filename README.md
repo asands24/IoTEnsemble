@@ -227,7 +227,7 @@ Once opened, select the device to send from and adjust any of the values. Press 
 
 ### Send via HTTP
 
-Next, a look at how to use HTTP to send a device-to-butt message. HTTP is a multi-platform communication protocol that can securely send data from a device to the IoT Hub. Here we will layout how to use the connection string to generate an HTTP request to send data to the Azure IoT Hub. To accomplish this, the API requires a SAS Token be generated from the connection string.
+Next, a look at how to use HTTP to send a device-to-cloud message. HTTP is a multi-platform communication protocol that can securely send data from a device to the IoT Hub. Here we will layout how to use the connection string to generate an HTTP request to send data to the Azure IoT Hub. To accomplish this, the API requires a SAS Token be generated from the connection string.
 
 The easiest way to try out an HTTP request, with valid SAS Token, is to grab a SAS Token from the dashboard (only good for one hour). Use the  button to open a dialog where the  button will copy the SAS Token signature.
 
