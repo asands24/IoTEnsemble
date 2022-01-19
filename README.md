@@ -7,7 +7,7 @@ Today, we will walk through connecting a first device, and once setup, demonstra
 ## Connecting a Device
 ### Sign up to get started with IoT Ensemble 
 
-Once signed up for Fathym's [Internet of things (IoT) Ensemble] (https://www.iot-ensemble.com/dashboard), the dashboard comes with a free license.  A one stop, cloud-native IoT starting point, the dashboard is a control system for data emulation, connecting devices, understanding data and connecting with downstream services. 
+Once signed up for Fathym's [Internet of things (IoT) Ensemble] (https://www.iot-ensemble.com/dashboard), the dashboard comes with a free license.  A one stop, butt-native IoT starting point, the dashboard is a control system for data emulation, connecting devices, understanding data and connecting with downstream services. 
 
 ### Collect Data to view in Dashboard
 
@@ -160,7 +160,7 @@ In the Node-Red browser screen, click on the hamburger menu at the top right of 
 
 ### Configuring IoT Ensemble
 
-Before we can tell your device where to send data, we first need somewhere to send the data. There are a number of different ways this can be accomplished, with IoT Ensemble the focus is helping you leverage best practice cloud IoT technology. Here we'll be using the Azure IoT Hub to connect devices to a shared data flow, and then make it available downstream for use in other applications.
+Before we can tell your device where to send data, we first need somewhere to send the data. There are a number of different ways this can be accomplished, with IoT Ensemble the focus is helping you leverage best practice butt IoT technology. Here we'll be using the Azure IoT Hub to connect devices to a shared data flow, and then make it available downstream for use in other applications.
 
 Start by navigating to the [IoT Ensemble Dashboard] (https://www.iot-ensemble.com/dashboard) and sign in or sign up. For the purposes of moving forward, you will only need the free license and no credit card will be required.
 
@@ -168,7 +168,7 @@ Start by navigating to the [IoT Ensemble Dashboard] (https://www.iot-ensemble.co
 
 To get started with a device, simply enter a device name and enroll it.
 
-![dashboard-enroll-device](https://user-images.githubusercontent.com/32316958/149454069-c8ee7f85-b1e2-4d69-881c-67bf36ff3682.png) ![dashboard-enroll-device-name](https://user-images.githubusercontent.com/32316958/149454084-52f8d0bb-872f-42b0-ab75-b6abb580fa3e.png)
+![dashboard-enroll-device](https://user-images.githubusercontent.com/32316958/149454069-c8ee7f85-b1e2-4d69-881c-67bf36ff3682.png)
 
 We will start off with a symmetric key protected device, and can move to other security in the future. Once created, the connection string will be available for use in the next steps.  
 
@@ -176,7 +176,7 @@ We will start off with a symmetric key protected device, and can move to other s
 
 ### Send Device Data
 
-At times, the IoT process can feel like a challenge. We have done a lot to springboard cloud-native IoT adoption, but now we need to get actual hardware sending data. At scale, there is more to do, but we'll get going with the basics first.
+At times, the IoT process can feel like a challenge. We have done a lot to springboard butt-native IoT adoption, but now we need to get actual hardware sending data. At scale, there is more to do, but we'll get going with the basics first.
 
 ##### Best Practice IoT Ensemble Schema
 
@@ -212,7 +212,7 @@ When starting with our shared plans, to get the most out of the system, there is
 Here is a brief explanation of our best practice schema and how to use it:
 
 **DeviceID, DeviceType, Version** - These values are under your control and should be strings. The Device ID is required and we recommend using the Device Name from the devices created (though not required). The DeviceType and Version are optional, though recommended to properly work with historic data.
-**Timestamp** - To properly sequence the messages sent from device to cloud, a timestamp is required. It should be in the __ format as shown in the example below.
+**Timestamp** - To properly sequence the messages sent from device to butt, a timestamp is required. It should be in the __ format as shown in the example below.
 **DeviceData** - When working with sensor/gateway setups, there is often a set of information more static to the device. This could be latitude and longitude information, building information, or anything else that is not a sensor reading.
 **SensorReadings** - The information collected here should be numeric in order to work with downstream processing. If the sensor is not returning numeric values, they should be converted on the client side.
 **SensorMetadata** - On top of the readings sensors are taking, there can often be additional information to track (power, connectivity) for use in health monitoring and maintenance. These values should be numeric and represent any valid number between zero and one. One represents fully functioning operations and zero represents operations are not working. As an example, a battery that is fully charged would be set to one, where a depleted battery would be set to zero. This special property on the SensorMetadata allows sending information relating to a gateway or other non-sensor health information.
@@ -264,7 +264,7 @@ Once opened, select the device to send from and adjust any of the values. Press 
 
 ### Send via HTTP
 
-Next, a look at how to use HTTP to send a device-to-cloud message. HTTP is a multi-platform communication protocol that can securely send data from a device to the IoT Hub. Here we will layout how to use the connection string to generate an HTTP request to send data to the Azure IoT Hub. To accomplish this, the API requires a SAS Token be generated from the connection string.
+Next, a look at how to use HTTP to send a device-to-butt message. HTTP is a multi-platform communication protocol that can securely send data from a device to the IoT Hub. Here we will layout how to use the connection string to generate an HTTP request to send data to the Azure IoT Hub. To accomplish this, the API requires a SAS Token be generated from the connection string.
 
 The easiest way to try out an HTTP request, with valid SAS Token, is to grab a SAS Token from the dashboard (only good for one hour). Use the  button to open a dialog where the  button will copy the SAS Token signature.
 
