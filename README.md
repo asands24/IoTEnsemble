@@ -7,7 +7,7 @@ Today, we will walk through connecting a first device, and once setup, demonstra
 ## Connecting a Device
 ### Sign up to get started with IoT Ensemble 
 
-Once signed up for Fathym's [Internet of things (IoT) Ensemble] (https://www.iot-ensemble.com/dashboard), the dashboard comes with a free license.  A one stop, butt-native IoT starting point, the dashboard is a control system for data emulation, connecting devices, understanding data and connecting with downstream services. 
+Once signed up for Fathym's [Internet of things (IoT) Ensemble] (https://www.iot-ensemble.com/dashboard), the dashboard comes with a free license.  A one stop, cloud-native IoT starting point, the dashboard is a control system for data emulation, connecting devices, understanding data and connecting with downstream services. 
 
 ### Collect Data to view in Dashboard
 
