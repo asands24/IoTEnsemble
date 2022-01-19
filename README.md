@@ -7,7 +7,7 @@ Today, we will walk through connecting a first device, and once setup, demonstra
 ## Connecting a Device
 ### Sign up to get started with IoT Ensemble 
 
-Once signed up for Fathym's [Internet of things (IoT) Ensemble] (https://www.iot-ensemble.com/dashboard), the dashboard comes with a free license.  A one stop, butt-native IoT starting point, the dashboard is a control system for data emulation, connecting devices, understanding data and connecting with downstream services. 
+Once signed up for Fathym's [Internet of things (IoT) Ensemble] (https://www.iot-ensemble.com/dashboard), the dashboard comes with a free license.  A one stop, cloud-native IoT starting point, the dashboard is a control system for data emulation, connecting devices, understanding data and connecting with downstream services. 
 
 ### Collect Data to view in Dashboard
 
@@ -40,7 +40,7 @@ When first connecting devices, you will be able to start seeing the data come to
 
 ![dashboard-devices-telemetry-table](https://user-images.githubusercontent.com/32316958/149454994-93e9ab15-96c4-40c4-838d-4637936f43af.png)
 
-The system is dynamic in terms of how the payload loads in, the telemetry row provides only the Device ID and the time at which the message was processed. To see what real data is flowing through, the copy or expand payload features can be used. Using the dropdown button canl expand the row to show the raw payload of the message. To quickly copy the payload of one of the messages, use the copy button.
+The system is dynamic in terms of how the payload loads in, the telemetry row provides only the Device ID and the time at which the message was processed. To see what real data is flowing through, the copy or expand payload features can be used. Using the dropdown button, expand the row to show the raw payload of the message. To quickly copy the payload of one of the messages, use the copy button.
 
 ![dashboard-devices-telemetry-table-payload](https://user-images.githubusercontent.com/32316958/149455075-9edcac02-1911-454f-bd0f-09565938253b.png)
 
@@ -49,6 +49,43 @@ The system is dynamic in terms of how the payload loads in, the telemetry row pr
 As an inline example of how data can be visualized, we use an open source tool called [freeboard](http://freeboard.io/). Use this tool to create and locally save custom visualizations and later load them into view.
 
 ![dashboard-devices-freeboard](https://user-images.githubusercontent.com/32316958/149455103-d0276368-322a-4d34-8c89-a11d0f60bbd3.png)
+
+## Connecting Downstream Services
+
+The main goal of an IoT Solution is the need to collect device data and bring it into a set of preferred tools for visualization, AI/ML, application development, and more. The following is a high-level look at the API’s available  storage access and how to use them to process data downstream to other services.
+
+### Storage Access 
+
+When working with IoT storage data, how it is stored and what interval it is stored at is extremely important to the overall cost of the system. We break our storage into three categories that support a cost-efficient way to handle data storage and access. Cold storage contains historic data, warm storage contains near-term queryable data, and hot storage provides a way to stream individual messages to other services in real time. The following high-level walk-through outlines API’s for accessing these storage types.
+
+![dashboard-storage-access](https://user-images.githubusercontent.com/32316958/149455137-81496c67-1bbe-4f59-8f56-5a2c872c7a1c.png)
+
+
+### Access Keys
+
+There are a few different places to locate API keys, the simplest is from the Storage Access section at the bottom of the dashboard.
+
+![dashboard-storage-access](https://user-images.githubusercontent.com/32316958/149455301-aea9d5c8-3736-4e38-97cd-01bd9d279df6.png)
+
+### Cold Storage 
+
+For many use cases, cold storage historic data can be formatted in an efficient way to support service integrations. The APIs provided to access this data are geared at helping grab a time period of data and format it in a number of ways (JSON, CSV, JSON Lines, etc). Use the dashboard to interactively call the ColdQuery endpoint, and explore the available parameters. The following is a simple example that could be used to retrieve device telemetry data for Microsoft Power BI:
+
+`curl -X GET "https://fathym-prd.azure-api.net/iot-ensemble/ColdQuery?dataType=Telemetry&resultType=JSON&flatten=false" -H  "lcu-subscription-key: {subscription-key}"`
+
+There are values to replace and adjust the parameters as desired. Here is a description on where to find the values for replacement.
+
+**{subscription-key}**
+The {subscription-key} can be located in the API Keys section as described above.
+
+### Warm Storage 
+
+A queryable storage location, warm storage offers a way to work with data in a dynamic, no-sql way. Use the dashboard to interactively call the WarmQuery endpoint, and explore the available parameters. Following is a simple example that could be used to retrieve device telemetry data for use in an application:
+
+`curl -X GET "https://fathym-prd.azure-api.net/iot-ensemble/WarmQuery?includeEmulated=false" -H  "lcu-subscription-key: {subscription-key}"`
+
+**{subscription-key}** - The {subscription-key} can be located in the API Keys section as described above.
+
 
 ### Connecting First Device
 
@@ -123,7 +160,7 @@ In the Node-Red browser screen, click on the hamburger menu at the top right of 
 
 ### Configuring IoT Ensemble
 
-Before we can tell your device where to send data, we first need somewhere to send the data. There are a number of different ways this can be accomplished, with IoT Ensemble the focus is helping you leverage best practice butt IoT technology. Here we'll be using the Azure IoT Hub to connect devices to a shared data flow, and then make it available downstream for use in other applications.
+Before we can tell your device where to send data, we first need somewhere to send the data. There are a number of different ways this can be accomplished, with IoT Ensemble the focus is helping you leverage best practice cloud IoT technology. Here we'll be using the Azure IoT Hub to connect devices to a shared data flow, and then make it available downstream for use in other applications.
 
 Start by navigating to the [IoT Ensemble Dashboard] (https://www.iot-ensemble.com/dashboard) and sign in or sign up. For the purposes of moving forward, you will only need the free license and no credit card will be required.
 
@@ -131,7 +168,7 @@ Start by navigating to the [IoT Ensemble Dashboard] (https://www.iot-ensemble.co
 
 To get started with a device, simply enter a device name and enroll it.
 
-![dashboard-enroll-device](https://user-images.githubusercontent.com/32316958/149454069-c8ee7f85-b1e2-4d69-881c-67bf36ff3682.png) 
+![dashboard-enroll-device](https://user-images.githubusercontent.com/32316958/149454069-c8ee7f85-b1e2-4d69-881c-67bf36ff3682.png) ![dashboard-enroll-device-name](https://user-images.githubusercontent.com/32316958/149454084-52f8d0bb-872f-42b0-ab75-b6abb580fa3e.png)
 
 We will start off with a symmetric key protected device, and can move to other security in the future. Once created, the connection string will be available for use in the next steps.  
 
@@ -139,7 +176,7 @@ We will start off with a symmetric key protected device, and can move to other s
 
 ### Send Device Data
 
-At times, the IoT process can feel like a challenge. We have done a lot to springboard butt-native IoT adoption, but now we need to get actual hardware sending data. At scale, there is more to do, but we'll get going with the basics first.
+At times, the IoT process can feel like a challenge. We have done a lot to springboard cloud-native IoT adoption, but now we need to get actual hardware sending data. At scale, there is more to do, but we'll get going with the basics first.
 
 ##### Best Practice IoT Ensemble Schema
 
@@ -175,7 +212,7 @@ When starting with our shared plans, to get the most out of the system, there is
 Here is a brief explanation of our best practice schema and how to use it:
 
 **DeviceID, DeviceType, Version** - These values are under your control and should be strings. The Device ID is required and we recommend using the Device Name from the devices created (though not required). The DeviceType and Version are optional, though recommended to properly work with historic data.
-**Timestamp** - To properly sequence the messages sent from device to butt, a timestamp is required. It should be in the __ format as shown in the example below.
+**Timestamp** - To properly sequence the messages sent from device to cloud, a timestamp is required. It should be in the __ format as shown in the example below.
 **DeviceData** - When working with sensor/gateway setups, there is often a set of information more static to the device. This could be latitude and longitude information, building information, or anything else that is not a sensor reading.
 **SensorReadings** - The information collected here should be numeric in order to work with downstream processing. If the sensor is not returning numeric values, they should be converted on the client side.
 **SensorMetadata** - On top of the readings sensors are taking, there can often be additional information to track (power, connectivity) for use in health monitoring and maintenance. These values should be numeric and represent any valid number between zero and one. One represents fully functioning operations and zero represents operations are not working. As an example, a battery that is fully charged would be set to one, where a depleted battery would be set to zero. This special property on the SensorMetadata allows sending information relating to a gateway or other non-sensor health information.
@@ -273,49 +310,11 @@ There are a couple of values to replace, and adjust the payload as desired. Here
 **{sas-token}** - The {sas-token} is the value copied from the dialog in the previous step, this is the complete SharedAccessSignature.
 **{device-name}** - The {device-name} can be any unique value, though it is recommended to use the Device Name from the created devices in the dashboard.
 
+### Downstream Services
 
-## Connecting Downstream Services
+There are many options in Power BI Desktop for importing data to be used in reports and visualizations for data interpretation. IoT Ensemble provides connection URLs and Storage Access Keys so you can import data from your devices into Power BI using the Web data source.
 
-The main goal of an IoT Solution is the need to collect device data and bring it into a set of preferred tools for visualization, AI/ML, application development, and more. The following is a high-level look at the API’s available  storage access and how to use them to process data downstream to other services.
-
-### Storage Access 
-
-When working with IoT storage data, how it is stored and what interval it is stored at is extremely important to the overall cost of the system. We break our storage into three categories that support a cost-efficient way to handle data storage and access. Cold storage contains historic data, warm storage contains near-term queryable data, and hot storage provides a way to stream individual messages to other services in real time. The following high-level walk-through outlines API’s for accessing these storage types.
-
-![dashboard-storage-access](https://user-images.githubusercontent.com/32316958/149455137-81496c67-1bbe-4f59-8f56-5a2c872c7a1c.png)
+Your IoT Ensemble Dashboard will give you access to API Access Storage Keys as well as the interactive forms described above to obtain request URLs for cold and warm storage queries. 
 
 
-### Access Keys
 
-There are a few different places to locate API keys, the simplest is from the Storage Access section at the bottom of the dashboard.
-
-![dashboard-storage-access](https://user-images.githubusercontent.com/32316958/149455301-aea9d5c8-3736-4e38-97cd-01bd9d279df6.png)
-
-### Cold Storage 
-
-For many use cases, cold storage historic data can be formatted in an efficient way to support service integrations. The APIs provided to access this data are geared at helping grab a time period of data and format it in a number of ways (JSON, CSV, JSON Lines, etc). Use the dashboard to interactively call the ColdQuery endpoint, and explore the available parameters. The following is a simple example that could be used to retrieve device telemetry data for Microsoft Power BI:
-
-`curl -X GET "https://fathym-prd.azure-api.net/iot-ensemble/ColdQuery?dataType=Telemetry&resultType=JSON&flatten=false" -H  "lcu-subscription-key: {subscription-key}"`
-
-There are values to replace and adjust the parameters as desired. Here is a description on where to find the values for replacement.
-
-**{subscription-key}**
-The {subscription-key} can be located in the API Keys section as described above.
-
-### Warm Storage 
-
-A queryable storage location, warm storage offers a way to work with data in a dynamic, no-sql way. Use the dashboard to interactively call the WarmQuery endpoint, and explore the available parameters. Following is a simple example that could be used to retrieve device telemetry data for use in an application:
-
-`curl -X GET "https://fathym-prd.azure-api.net/iot-ensemble/WarmQuery?includeEmulated=false" -H  "lcu-subscription-key: {subscription-key}"`
-
-**{subscription-key}** - The {subscription-key} can be located in the API Keys section as described above.
-
-### Connecting to PowerBi
-
-To input the request URL from above (or obtained from the dashboard) into the Power BI URL Parts text field. Then enter lcu-subscription-key as a header parameter key, along with the Access Key copied from IoT Ensemble Dashboard in the value text field.
-
-![PowerBiGetData](https://user-images.githubusercontent.com/32316958/149870997-ddcc5c84-57de-4137-a2d2-9b17d0606a1e.png)
-
-Now that you have transformed and loaded your data, it is time to prepare reports and visualizations for data interpretation and analysis. In the Fields pane on the right, you see the fields in the data model you just transformed and created.
-
-![warmquery](https://user-images.githubusercontent.com/32316958/149870734-5005777a-b3df-4cea-9d4e-aac818cadcd1.png)
